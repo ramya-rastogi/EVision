@@ -84,7 +84,7 @@ All scores normalized to 0-100 scale via AI-driven normalization
 
 ## 🏗 Project Architecture
 
-mermaid
+```mermaid 
 flowchart TD
     A[Raw EV Dataset] --> B[AI Data Preprocessing]
     B --> C{Data Quality Check}
@@ -126,7 +126,7 @@ flowchart TD
     style T fill:#e1ffe1
     style W fill:#fff5e1
 
-
+```
 ---
 
 ## ✨ Features
@@ -248,7 +248,7 @@ python
 
 ## 🔄 EVision AI Pipeline Overview
 
-mermaid
+```mermaid
 graph LR
     A[Input Features:<br/>Fast_charge, Top_speed,<br/>Range, Efficiency,<br/>Price, Acceleration] --> B[AI Feature<br/>Normalization]
     B --> C[Feature<br/>Engineering]
@@ -271,7 +271,7 @@ graph LR
     style K fill:#c8e6c9
     style I fill:#fff9c4
 
-
+```
 ---
 
 ## 💼 Industry Applications
