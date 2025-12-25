@@ -1,101 +1,279 @@
-# 🚗⚡ EVision: Electric Vehicle Innovation Scoring
+# EVision — Smart EV Innovation Analyzer
 
-> *Quantifying electric vehicle innovation through data-driven intelligence*
-
-## 📌 Overview
-
-This project introduces a **composite Innovation Score** for electric vehicles that goes beyond traditional metrics. **EVision** combines technological advancement, energy efficiency, and user value to create a holistic benchmark that objectively compares EVs across brands like Tesla, BYD, and MG.
-
-## 🎯 What Makes an EV "Innovative"?
-
-The Innovation Score synthesizes three critical dimensions:
-
-| Dimension | Weight | What It Measures | Key Features |
-|-----------|--------|------------------|--------------|
-| **Tech Edge** | 40% | Engineering prowess & charging capability | Fast charge speed, Top speed |
-| **Energy Intelligence** | 40% | Sustainability & battery optimization | Efficiency, Range |
-| **User Value** | 20% | Affordability & practicality | Price, Acceleration |
-
-### 🧮 The Formula
-
-```
-Innovation Score = 0.4(TechEdge) + 0.4(EnergyIntelligence) + 0.2(UserValue)
-```
-
-Where:
-- **TechEdge** = 0.5 × norm(Fast_charge) + 0.5 × norm(Top_speed)
-- **EnergyIntelligence** = 0.6 × norm(Efficiency) + 0.4 × norm(Range)
-- **UserValue** = 0.5 × (1 - norm(Price)) + 0.5 × (1 - norm(Acceleration))
-
-*Weights can be adjusted based on project focus: sustainability, performance, or affordability.*
-
-## 📊 Dataset
-
-- **360 electric vehicles** from various manufacturers
-- **7 core features**: Battery size, Efficiency, Fast charge, Price, Range, Top speed, Acceleration
-- Cleaned and preprocessed with missing values handled via mean imputation
-- Outliers in pricing addressed using IQR-based capping
-
-## 🔬 Analysis Workflow
-
-### 1️⃣ EDA & Feature Engineering (`EV_EDA.pdf`)
-- Exploratory data analysis with distribution plots
-- Feature scaling using MinMaxScaler
-- Innovation Score computation
-- Correlation analysis revealing:
-  - **Top_speed** (0.90) and **Battery** (0.85) as strongest positive correlators
-  - **Acceleration** (-0.74) as a negative correlator
-  - **Efficiency** shows weak correlation (0.08) - removed from modeling
-
-### 2️⃣ Predictive Modeling (`InnovationScore_model.pdf`)
-- **Algorithm**: Linear Regression with GridSearchCV
-- **Performance Metrics**:
-  - R² Score: **0.990** (test set)
-  - Cross-validation R²: **0.992** ± 0.002
-  - RMSE: **0.010**
-  - MAE: **0.007**
-- Model demonstrates excellent fit with minimal overfitting
-- Saved artifacts: `linear.pkl` and `columns_linear.pkl`
-
-## 🎨 Key Visualizations
-
-- Distribution plots for all features
-- Learning curves showing model convergence
-- Residual plots confirming homoscedasticity
-- Predictions vs Actuals scatter plot
-
-## 🚀 Why This Matters
-
-✨ **For Manufacturers**: Identify innovation gaps and benchmark against competitors  
-🌱 **For Policy Makers**: Encourage sustainable EV design through quantifiable metrics  
-💰 **For Consumers**: Make informed decisions based on holistic vehicle value  
-📈 **For Researchers**: Use as a framework for multi-dimensional EV analysis
-
-## 📦 Project Structure
-
-```
-├── EV_cars.csv                          # Raw dataset
-├── EV_cleaned_InnovationScore.csv       # Processed dataset with scores
-├── EV_EDA.pdf                           # Exploratory analysis notebook
-├── InnovationScore_model.pdf            # Model training notebook
-├── linear.pkl                           # Trained model
-└── columns_linear.pkl                   # Feature columns
-```
-
-## 🛠️ Technologies Used
-
-- **Data Processing**: Pandas, NumPy
-- **Visualization**: Matplotlib, Seaborn
-- **Modeling**: Scikit-learn (Linear Regression, GridSearchCV)
-- **Persistence**: Joblib
-
-## 🔮 Future Enhancements
-
-- Incorporate real-time market data
-- Add brand-specific innovation trends
-- Expand to include environmental impact scores
-- Deploy as an interactive web dashboard
+**A data-driven platform for evaluating and analyzing electric vehicle innovation through AI-powered insights and predictive modeling.**
 
 ---
 
-**Built with 🔋 for the future of sustainable mobility**
+## Problem Statement
+
+The electric vehicle market is rapidly evolving with hundreds of models offering varying combinations of battery capacity, efficiency, performance, and pricing. Consumers, analysts, and industry professionals struggle to objectively compare EVs across multiple dimensions of innovation and value.
+
+**EVision** solves this by computing a comprehensive **Innovation Score** that quantifies how innovative an electric vehicle is based on technical capabilities, energy intelligence, and user value — providing a single metric to compare and analyze EVs objectively.
+
+---
+
+## Innovation Score Methodology
+
+The Innovation Score is a weighted composite metric ranging from 0-100, calculated using three core dimensions:
+
+### Formula
+
+```
+Innovation Score = (Tech Edge × 0.40) + (Energy Intelligence × 0.40) + (User Value × 0.20)
+```
+
+### Component Breakdown
+
+**1. Tech Edge (40%)**
+Evaluates cutting-edge performance and capabilities
+- Battery Capacity (kWh)
+- Top Speed (km/h)
+- Acceleration 0-100 km/h (seconds, inverted)
+
+**2. Energy Intelligence (40%)**
+Measures efficiency and charging capabilities
+- Efficiency (Wh/km, inverted)
+- Range (km)
+- Fast Charge Speed (km/h of charge)
+
+**3. User Value (20%)**
+Assesses affordability and cost-effectiveness
+- Price (Euro, inverted and weighted)
+
+Each feature is normalized using min-max scaling before aggregation, ensuring balanced contribution across different units and scales.
+
+---
+
+## Machine Learning Workflow
+
+### Dataset Overview
+- **Total Vehicles:** 360 electric vehicle models
+- **Features:** 7 technical and pricing attributes
+- **Target Variable:** Innovation Score (computed)
+
+### Pipeline
+
+1. **Exploratory Data Analysis (EDA)**
+   - Distribution analysis of all features
+   - Outlier detection and handling
+   - Statistical profiling of EV characteristics
+
+2. **Feature Engineering**
+   - Min-max normalization of all features
+   - Weighted composite score calculation
+   - Feature interaction analysis
+
+3. **Correlation Analysis**
+   - Identified strong correlations between battery capacity and range
+   - Analyzed price-performance relationships
+   - Validated scoring formula assumptions
+
+4. **Predictive Modeling**
+   - Algorithm: Linear Regression
+   - Performance: **R² = 0.99**
+   - Use Case: Predict Innovation Score from raw features
+   - Enables score estimation for new EV models
+
+### Key Insights
+
+The high R² score validates that the Innovation Score formula effectively captures the linear relationships between EV features and overall innovation potential. This allows the model to accurately predict innovation scores for vehicles not yet in the dataset.
+
+---
+
+## Streamlit Web Application
+
+EVision extends beyond analysis into an interactive web platform built with Streamlit, offering real-time EV exploration and AI-powered insights.
+
+### Application Features
+
+#### 🏠 Home
+- Project overview and methodology
+- Quick navigation hub
+- Feature highlights
+
+#### 💬 AI Chat
+- Conversational interface powered by **Google Gemini AI**
+- Natural language queries about EVs
+- Persistent chat history within sessions
+- Context-aware responses about the dataset
+
+#### 📊 Innovation Score
+- Interactive EV comparison dashboard
+- Sortable and filterable data tables
+- Visual score breakdowns
+- Top performers by category
+
+#### ℹ️ About
+- Detailed scoring methodology
+- Technical documentation
+- Project background and vision
+
+### UI/UX Enhancements
+
+- **Custom CSS Styling:** Modern, responsive design with brand-consistent color palette
+- **Lottie Animations:** Smooth, engaging visual elements for enhanced user experience
+- **Persistent State Management:** Chat history and user preferences maintained across page navigation
+- **Responsive Layout:** Optimized for desktop and tablet viewing
+
+---
+
+## AI Assistant Capabilities
+
+The integrated Gemini AI assistant provides intelligent analysis and answers questions such as:
+
+- "Which EV has the best efficiency under €40,000?"
+- "Compare the top 5 EVs by Innovation Score"
+- "What's the relationship between battery capacity and range?"
+- "Recommend an EV for long-distance travel with fast charging"
+- "Explain why a specific vehicle scored high/low"
+
+The AI has access to the complete EV dataset and can perform complex queries, comparisons, and recommendations based on user preferences.
+
+---
+
+## Tech Stack
+
+### Data Science & ML
+- **Python 3.x** — Core programming language
+- **Pandas** — Data manipulation and analysis
+- **NumPy** — Numerical computing
+- **Scikit-learn** — Machine learning modeling
+- **Matplotlib / Seaborn** — Data visualization
+
+### Web Application
+- **Streamlit** — Interactive web framework
+- **Lottie** — Animation integration
+- **Custom CSS** — Styling and theming
+
+### AI Integration
+- **Google Gemini API** — Conversational AI and natural language processing
+- **LangChain** (optional) — AI orchestration and prompt management
+
+### Development Tools
+- **Jupyter Notebook** — Exploratory analysis
+- **Git** — Version control
+- **VS Code** — Development environment
+
+---
+
+## Project Structure
+
+```
+evision/
+│
+├── data/
+│   └── ev_data.csv                 # Raw EV dataset (360 vehicles)
+│
+├── notebooks/
+│   ├── 01_eda.ipynb                # Exploratory data analysis
+│   ├── 02_feature_engineering.ipynb # Score calculation
+│   └── 03_modeling.ipynb           # ML model training
+│
+├── app/
+│   ├── Home.py                     # Streamlit main entry point
+│   ├── pages/
+│   │   ├── 1_💬_AI_Chat.py        # Gemini AI chat interface
+│   │   ├── 2_📊_Innovation_Score.py # Score dashboard
+│   │   └── 3_ℹ️_About.py          # About page
+│   ├── utils/
+│   │   ├── scoring.py              # Innovation score logic
+│   │   ├── ai_handler.py           # Gemini API integration
+│   │   └── visualizations.py      # Chart generators
+│   └── assets/
+│       ├── style.css               # Custom styling
+│       └── animations/             # Lottie files
+│
+├── models/
+│   └── innovation_model.pkl        # Trained linear regression model
+│
+├── requirements.txt                # Python dependencies
+├── README.md                       # Project documentation
+└── .env.example                    # Environment variables template
+```
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.8 or higher
+- Google Gemini API key (for AI features)
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/evision.git
+cd evision
+```
+
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
+
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
+
+4. Set up environment variables:
+```bash
+cp .env.example .env
+# Add your GEMINI_API_KEY to .env
+```
+
+5. Run the Streamlit app:
+```bash
+streamlit run app/Home.py
+```
+
+The application will open in your default browser at `http://localhost:8501`
+
+---
+
+## Model Performance
+
+| Metric | Value |
+|--------|-------|
+| Algorithm | Linear Regression |
+| R² Score | 0.99 |
+| Training Samples | 288 (80%) |
+| Test Samples | 72 (20%) |
+| Features | 7 |
+
+The near-perfect R² score indicates that the Innovation Score formula successfully captures the underlying patterns in EV innovation metrics.
+
+---
+
+## Future Scope
+
+### Short-term Enhancements
+- Add more EV models as market data becomes available
+- Implement user authentication for personalized recommendations
+- Export comparison reports and visualizations
+
+### Medium-term Features
+- Expand scoring dimensions (safety ratings, software features, charging network access)
+- Real-time data updates via web scraping or API integration
+- Multi-model ML comparison (Random Forest, XGBoost)
+
+### Long-term Vision
+- Mobile application (React Native/Flutter)
+- Community-driven reviews and ratings
+- Predictive analytics for future EV market trends
+- Integration with dealer inventory and pricing APIs
+
+---
+
+## Acknowledgments
+
+- EV dataset sourced from [kaggle/ev-database]
+- Google Gemini AI for powering conversational features
+- Streamlit community for excellent documentation and support
+
+---
+
+**Built with 🔋 for a sustainable future**
